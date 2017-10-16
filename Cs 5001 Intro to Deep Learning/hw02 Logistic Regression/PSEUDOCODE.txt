@@ -1,0 +1,14 @@
+PROCEDURE Logistic_Regression_Learner
+GIVEN:
+  Ex[0..n] : examples, each a <X0 .. Xn, Y> tuple.
+LOCAL:
+  w[n] : weights
+  Randomize w[0 .. n].
+  REPEAT 5000 times
+    FOR EACH example e = <X0 .. Xn, Y> DO
+	  compute yCap ( from w[0 .. n] and X0 .. Xn ) 
+	  Error := Y - YCap
+	  FOR EACH weight w[k] DO
+		update w[k] using eta, Error, Ycap, and  Xk
+
+  output w[]
