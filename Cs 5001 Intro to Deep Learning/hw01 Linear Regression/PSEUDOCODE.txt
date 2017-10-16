@@ -1,0 +1,14 @@
+PROCEDURE BatchRegressionOneInput
+GIVEN:
+  Ex[0..n] : examples, each a <x,y> pair
+LOCAL:
+  w[0,1] : weights
+  wErr[0,1] : error per weight
+  Randomize w[0], w[1].
+  REPEAT 1500 times
+  FOR k := 0 to n DO  // go through examples and compute errors
+      Compute yCap ( from w[0], w[1] and Ex[k].x ) 
+	  wErr[i] := wErr[i] + ( Ex[k].y - yCap ) * Ex[k].x[i]
+	wErr[i] := 1/n * wErr[i]     // Normalize each weights error
+	w[i] := w[i] + eta * wErr[i] 
+  output w[]
