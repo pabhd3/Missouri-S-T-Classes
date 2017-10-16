@@ -7,5 +7,5 @@
 #
 # This makefile assumes you have only python3 installed
 
-default: regressOneIn.py
-	@python regressOneIn.py
+default: catPizzaReg.py
+	@python catPizzaReg.py
