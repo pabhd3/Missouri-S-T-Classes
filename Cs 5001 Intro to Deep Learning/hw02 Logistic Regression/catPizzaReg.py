@@ -31,8 +31,9 @@ LLE = 0
 
 # Weights
 w = [0, 0, 0, 0, 0]
-for weight in range(0,5):
+for weight in range(0, 5):
     w[weight] = randint(-1000,1000)
+    print(w[weight])
 
 # Test Math
 print("\nTesting Math")
@@ -43,6 +44,11 @@ print("yCap (after sigmoid) = " + str(yCapSigmoid))
 ERROR = int(ACCEPT[0]) - yCapSigmoid
 print("Error = " + str(ERROR))
 print("Initial Weights = " + str(w))
+w[0] = w[0] + eta * (ERROR * yCapSigmoid)
+w[1] = w[1] + eta * (ERROR * yCapSigmoid * int(PEPPERONI[0]))
+w[2] = w[2] + eta * (ERROR * yCapSigmoid * int(SAUSAGE[0]))
+w[3] = w[3] + eta * (ERROR * yCapSigmoid * int(MUSHROOM[0]))
+w[4] = w[4] + eta * (ERROR * yCapSigmoid * int(CHEESE[0]))
 print("Updated Weights = " + str(w))
 
 
