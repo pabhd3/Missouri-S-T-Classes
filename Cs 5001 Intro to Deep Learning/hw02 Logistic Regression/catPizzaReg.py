@@ -35,12 +35,15 @@ for weight in range(0,5):
     w[weight] = randint(-1000,1000)
 
 # Test Math
+print("\nTesting Math")
 yCap = (w[0]*1)+(w[1]*int(PEPPERONI[0]))+(w[2]*int(SAUSAGE[0]))+(w[3]*int(MUSHROOM[0]))+(w[4]*int(CHEESE[0]))
-print("\nyCap (before sigmoid) = " + str(yCap))
+print("yCap (before sigmoid) = " + str(yCap))
 yCapSigmoid = 1 / (1 + exp(-yCap))
 print("yCap (after sigmoid) = " + str(yCapSigmoid))
 ERROR = int(ACCEPT[0]) - yCapSigmoid
 print("Error = " + str(ERROR))
+print("Initial Weights = " + str(w))
+print("Updated Weights = " + str(w))
 
 
 # Output Part 2/2
