@@ -37,15 +37,11 @@ for weight in range(0, 5):
     
 print("Initial Weights = " + str(w))
 
-# Test Math
+# Calculations involving weights
 for iteration in range(0, 5000):
     for entry in range(0, entries):
-        try:
-            yCap = (w[0]*1)+(w[1]*int(X[0][entry]))+(w[2]*int(X[1][entry]))+(w[3]*int(X[2][entry]))+(w[4]*int(X[3][entry]))
-            yCapSigmoid = 1 / (1 + e**-yCap)
-        except OverflowError:
-            yCapSigmoid = 1
-        
+        yCap = (w[0]*1)+(w[1]*int(X[0][entry]))+(w[2]*int(X[1][entry]))+(w[3]*int(X[2][entry]))+(w[4]*int(X[3][entry]))
+        yCapSigmoid = 1 / (1 + e**-yCap) 
         ERROR = int(ACCEPT[entry]) - yCapSigmoid
         w[0] = w[0] + (eta * ERROR * yCapSigmoid)
         w[1] = w[1] + eta * (ERROR * yCapSigmoid * int(X[0][entry]))
@@ -53,13 +49,10 @@ for iteration in range(0, 5000):
         w[3] = w[3] + eta * (ERROR * yCapSigmoid * int(X[2][entry]))
         w[4] = w[4] + eta * (ERROR * yCapSigmoid * int(X[3][entry]))
 
+# Sum of Square Errors calculations
 for entry in range(0, entries):
-    try:
-        yCap = (w[0]*1)+(w[1]*int(X[0][entry]))+(w[2]*int(X[1][entry]))+(w[3]*int(X[2][entry]))+(w[4]*int(X[3][entry]))
-        yCapSigmoid = 1 / (1 + e**-yCap)
-    except OverflowError:
-        yCapSigmoid = 1
-       
+    yCap = (w[0]*1)+(w[1]*int(X[0][entry]))+(w[2]*int(X[1][entry]))+(w[3]*int(X[2][entry]))+(w[4]*int(X[3][entry]))
+    yCapSigmoid = 1 / (1 + e**-yCap)   
     ERROR = int(ACCEPT[entry]) - yCapSigmoid
     LLE = LLE + (ERROR**2)
     
