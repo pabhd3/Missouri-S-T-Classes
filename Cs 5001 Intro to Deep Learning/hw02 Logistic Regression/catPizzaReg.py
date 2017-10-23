@@ -35,7 +35,7 @@ w = [0, 0, 0, 0, 0]
 for weight in range(0, 5):
     w[weight] = randint(-100,100)
     
-print("Initial Weights = " + str(w))
+#print("Initial Weights = " + str(w))
 
 # Calculations involving weights
 for iteration in range(0, 5000):
