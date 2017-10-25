@@ -4,6 +4,9 @@ from random import randint
 # Used for e^xrange
 from math import e
 
+# Used for argparse
+import argparse
+
 def logisticReg(eta):
 
     # Bring in DATA
@@ -56,8 +59,12 @@ def logisticReg(eta):
 
 
 def main():
+    parser = argparse.ArgumentParser(description='Logistic Regression')
+    parser.add_argument('Eta', metavar='Eta', type=float,
+                    help='Learning Rate')
+    args = parser.parse_args()
 
-    eta = 0.05
+    eta = args.Eta
 
     # Output Part 1/2
     print("CS-5001 : HW#2 : Logistic Regression.")

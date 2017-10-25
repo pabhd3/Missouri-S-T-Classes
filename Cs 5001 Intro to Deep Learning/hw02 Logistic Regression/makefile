@@ -8,4 +8,4 @@
 # This makefile assumes you have only python3 installed
 
 default: catPizzaReg.py
-	@python catPizzaReg.py
+	@python catPizzaReg.py 0.22
