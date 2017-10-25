@@ -16,7 +16,7 @@ parser.add_argument('stop', metavar='Stop', type=float,
                     help='Ending Value')
 parser.add_argument('step', metavar='Step', type=float,
                     help='Step Size')
-parser.add_argument('-s', type=bool, default=False,
+parser.add_argument('-s', action='store_true', default=False,
                     help='Do you want to save the results?')
 # Parse the arguments
 args = parser.parse_args()
