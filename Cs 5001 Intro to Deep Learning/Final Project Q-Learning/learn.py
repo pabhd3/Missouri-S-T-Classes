@@ -13,5 +13,15 @@ def main():
     else:
         print("Until Converge")
 
+    # Build Basement
+    GRID = []
+    for i in range(0,10):
+        GRID.append([])
+    for j in range(0,10):
+        for k in range(0,10):
+            GRID[j].append({'info': '', 'up': 0, 'right': 0, 'down': 0, 'left': 0})
+
+    print(GRID)
+
 if __name__ == '__main__':
     main()
