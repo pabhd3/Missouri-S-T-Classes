@@ -19,9 +19,21 @@ def main():
         GRID.append([])
     for j in range(0,10):
         for k in range(0,10):
-            GRID[j].append({'info': '', 'up': 0, 'right': 0, 'down': 0, 'left': 0})
+            GRID[j].append({'info': ' ', 'up': 0, 'right': 0, 'down': 0, 'left': 0})
+    for i in range(0,10):
+        GRID[0][i]['info'] = "W"
+        GRID[9][i]['info'] = "W"
+        GRID[i][0]['info'] = "W"
+        GRID[i][9]['info'] = "W"
+    GRID[2][2]['info'] = "W"; GRID[3][2]['info'] = "W"; GRID[4][2]['info'] = "W"
+    GRID[2][4]['info'] = "W"; GRID[2][5]['info'] = "W"; GRID[2][6]['info'] = "W"
+    GRID[6][4]['info'] = "W"; GRID[7][4]['info'] = "W"; GRID[8][4]['info'] = "W"
+    GRID[4][6]['info'] = "W"; GRID[5][6]['info'] = "W"; GRID[6][6]['info'] = "W"
 
-    print(GRID)
+    for i in range(0,10):
+        for j in range(0,10):
+            print(GRID[i][j]['info'], end=' ')
+        print('\n')
 
 if __name__ == '__main__':
     main()
