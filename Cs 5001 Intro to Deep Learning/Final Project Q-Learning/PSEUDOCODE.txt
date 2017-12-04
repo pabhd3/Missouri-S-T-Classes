@@ -1,0 +1,18 @@
+PROCEDURE Q-Learning (S, A, gamma, alpha)		
+  INPUTS:  S: set of states;   A: set of actions;
+		   gamma: discount rate;   alpha: TD step size;
+				
+   LOCAL: Q[S][A]: Table of state-action values;
+				
+BEGIN
+	Initialize Q[S][A] arbitrarily;
+	Observe current state s;
+	REPEAT
+		select an action a;
+		do(a)
+		observe reward r and resulting state s'
+		Q[s][a] := Q[s][a] + 𝛂 * ( r + 𝜸 * max_a' Q[s'][a'] - Q[s][a] )
+        s := s'
+    UNTIL termination
+RETURN Q[S][A] 
+END Q-Learning

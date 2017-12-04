@@ -9,27 +9,7 @@ Tinny Tim can perform four actions: up, down, left, and right. These actions wil
 
 # Map of Basement:
 
-W - Wall___ D - Donut___ T - Tile___ . - Free Space
-
-W W W W W W W W W W
-
-W D . T . . . . D W
-
-W . W . W W W T . W
-
-W . W . . . . . . W
-
-W . W . . . W . . W
-
-W . T . . . W . . W
-
-W . . . W T W . . W
-
-W . T . W . . . . W
-
-W D . . W . . . D W
-
-W W W W W W W W W W
+Will update once I get a good looking version.
 
 -----------------------------------------------------------------------------------
 
