@@ -54,10 +54,53 @@ def main():
         for j in range(0,10):
             print(GRID[i][j]['info'], end=' ')
         print('\n')
-    print("Current Position " + str(cPos))
-    testUp = cPos[0]-1, cPos[1]
-    print("Test Position Up " + str(testUp) + " has reward " + str(nextPos(GRID[testUp[0]][testUp[1]]['info'])))
 
+    rewards = {"up": 0, "right": 0, "down": 0, "left": 0}
+    alpha = 0.1
+    gamma = 0.2
+
+    for step in range(0, args.a):
+        print("Current Position " + str(cPos))
+
+        testup = cPos[0]-1, cPos[1]
+        rewards["up"] = nextPos(GRID[testup[0]][testup[1]]['info'])
+
+        testright = cPos[0], cPos[1]+1
+        rewards["right"] = nextPos(GRID[testright[0]][testright[1]]['info'])
+
+        testdown = cPos[0]+1, cPos[1]
+        rewards["down"] = nextPos(GRID[testdown[0]][testdown[1]]['info'])
+
+        testleft = cPos[0], cPos[1]-1
+        rewards["left"] = nextPos(GRID[testleft[0]][testleft[1]]['info'])
+
+        bestReward = max(rewards, key=rewards.get)
+        print("Best reward is " + bestReward + "\n")
+
+        GRID[cPos[0]][cPos[1]]["up"] = GRID[cPos[0]][cPos[1]]["up"] + alpha * (rewards["up"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["up"])
+        GRID[cPos[0]][cPos[1]]["right"] = GRID[cPos[0]][cPos[1]]["right"] + alpha * (rewards["right"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["right"])
+        GRID[cPos[0]][cPos[1]]["down"] = GRID[cPos[0]][cPos[1]]["down"] + alpha * (rewards["down"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["down"])
+        GRID[cPos[0]][cPos[1]]["left"] = GRID[cPos[0]][cPos[1]]["left"] + alpha * (rewards["left"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["left"])
+    
+        if(bestReward == "up"):
+            cPos = testup
+        elif(bestReward == "right"):
+            cPos = testright
+        elif(bestReward == "down"):
+            cPos = testdown
+        else:
+            cPos = testleft
+    
+    policies = {"up": 0, "right": 0, "down": 0, "left": 0}
+    for i in range(0,10):
+        for j in range(0,10):
+            policies["up"] = GRID[i][j]["up"]
+            policies["right"] = GRID[i][j]["right"]
+            policies["down"] = GRID[i][j]["down"]
+            policies["left"] = GRID[i][j]["left"]
+            bestPolicy = max(policies, key=policies.get)
+            print(GRID[i][j][bestPolicy], end='    ')
+        print('\n')
 
 if __name__ == '__main__':
     main()
