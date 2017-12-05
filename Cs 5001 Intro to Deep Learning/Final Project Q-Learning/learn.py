@@ -2,6 +2,15 @@
 import argparse
 from random import randint
 
+def nextPos(cardinal):
+    if(cardinal == "W"):
+        return -1
+    elif(cardinal == "D"):
+        return 10
+    else:
+        return 0
+        
+
 def main():
     # Set up Argparse
     parser = argparse.ArgumentParser(description='Generate a Random Graph')
@@ -38,12 +47,17 @@ def main():
         xStart = randint(0, 9); yStart = randint(0, 9)
         if(GRID[xStart][yStart]['info'] != 'W'):
             startPoint = False
-    GRID[xStart][yStart]['info'] = 'C'
+    cPos = xStart, yStart
+    GRID[cPos[0]][cPos[1]]['info'] = 'C'
 
     for i in range(0,10):
         for j in range(0,10):
             print(GRID[i][j]['info'], end=' ')
         print('\n')
+    print("Current Position " + str(cPos))
+    testUp = cPos[0]-1, cPos[1]
+    print("Test Position Up " + str(testUp) + " has reward " + str(nextPos(GRID[testUp[0]][testUp[1]]['info'])))
+
 
 if __name__ == '__main__':
     main()

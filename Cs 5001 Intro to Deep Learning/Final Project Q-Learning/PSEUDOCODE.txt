@@ -11,7 +11,7 @@ BEGIN
 		select an action a;
 		do(a)
 		observe reward r and resulting state s'
-		Q[s][a] := Q[s][a] + 𝛂 * ( r + 𝜸 * max_a' Q[s'][a'] - Q[s][a] )
+		Q[s][a] := Q[s][a] + alpha * ( r + gamma * max_a' Q[s'][a'] - Q[s][a] )
         s := s'
     UNTIL termination
 RETURN Q[S][A] 
