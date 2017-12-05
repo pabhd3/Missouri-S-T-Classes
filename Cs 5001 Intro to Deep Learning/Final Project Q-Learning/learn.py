@@ -1,5 +1,6 @@
 # Imports needed to run
 import argparse
+from random import randint
 
 def main():
     # Set up Argparse
@@ -29,6 +30,15 @@ def main():
     GRID[2][4]['info'] = "W"; GRID[2][5]['info'] = "W"; GRID[2][6]['info'] = "W"
     GRID[6][4]['info'] = "W"; GRID[7][4]['info'] = "W"; GRID[8][4]['info'] = "W"
     GRID[4][6]['info'] = "W"; GRID[5][6]['info'] = "W"; GRID[6][6]['info'] = "W"
+    
+    # Get a Starting Position
+    startPoint = True
+    xStart = 0; yStart = 0
+    while(startPoint):
+        xStart = randint(0, 9); yStart = randint(0, 9)
+        if(GRID[xStart][yStart]['info'] != 'W'):
+            startPoint = False
+    GRID[xStart][yStart]['info'] = 'C'
 
     for i in range(0,10):
         for j in range(0,10):
