@@ -55,10 +55,10 @@ def main():
     cPos = xStart, yStart
     GRID[cPos[0]][cPos[1]]['info'] = 'C'
 
-    for i in range(0,10):
-        for j in range(0,10):
-            print(GRID[i][j]['info'], end=' ')
-        print('\n')
+    #for i in range(0,10):
+        #for j in range(0,10):
+            #print(GRID[i][j]['info'], end=' ')
+        #print('\n')
 
     rewards = {"up": 0, "right": 0, "down": 0, "left": 0}
     alpha = 0.1
@@ -67,6 +67,11 @@ def main():
     rewards = {"up": 0, "right": 0, "down": 0, "left": 0}
 
     for step in range(0, args.a):
+        # Output Progress
+        onePercent = args.a / 100
+        if(step % onePercent == 0):
+            print(str(step/onePercent) + "% Complete")
+
         # Handle Tiles Falling
         tileFall = randint(0, 1)
         if(tileFall == 1):
@@ -127,6 +132,32 @@ def main():
             lastMove["coord"] = cPos
             lastMove["direction"] = otherDir
             cPos = stumbledTo
+
+    # Build Policy Table
+    p = [[], [], [], [], [], [], [], [], [], []]
+    for i in range(0,10):
+        for j in range(0,10):
+            squareRewards = {"up": GRID[i][j]["up"], "right": GRID[i][j]["right"], "down": GRID[i][j]["down"], "left": GRID[i][j]["left"]}
+            p[i].append(max(squareRewards, key=squareRewards.get))
+    s = [[str(e) for e in row] for row in p]
+    lens = [max(map(len, col)) for col in zip(*s)]
+    fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+    table = [fmt.format(*row) for row in s]
+    print("Rewards Table")
+    print('\n'.join(table))
+
+    # Build Rewards Table
+    r = [[], [], [], [], [], [], [], [], [], []]
+    for i in range(0,10):
+        for j in range(0,10):
+            squareRewards = [GRID[i][j]["up"], GRID[i][j]["right"], GRID[i][j]["down"], GRID[i][j]["left"]]
+            r[i].append(max(squareRewards, key=int))
+    s = [[str(e) for e in row] for row in r]
+    lens = [max(map(len, col)) for col in zip(*s)]
+    fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+    table = [fmt.format(*row) for row in s]
+    print("Rewards Table")
+    print('\n'.join(table))
 
 
 if __name__ == '__main__':
