@@ -1,6 +1,9 @@
 # Imports needed to run
 import argparse
+from decimal import *
 from random import randint
+import time
+from datetime import timedelta
 
 def nextPos(cardinal):
     if(cardinal == "W"):
@@ -66,12 +69,8 @@ def main():
     lastMove = {"coord": (0, 0), "direction": "none"}
     rewards = {"up": 0, "right": 0, "down": 0, "left": 0}
 
+    start_time = time.time()
     for step in range(0, args.a):
-        # Output Progress
-        onePercent = args.a / 100
-        if(step % onePercent == 0):
-            print(str(step/onePercent) + "% Complete")
-
         # Handle Tiles Falling
         tileFall = randint(0, 1)
         if(tileFall == 1):
@@ -113,6 +112,8 @@ def main():
                 cPos = (cPos[0]+1, cPos[1])
             else:
                 cPos = (cPos[0], cPos[1]-1)
+            if(cPos in activeDonuts):
+                activeDonuts.pop()
         else:
             other = True
             while(other):
@@ -132,32 +133,42 @@ def main():
             lastMove["coord"] = cPos
             lastMove["direction"] = otherDir
             cPos = stumbledTo
+            if(cPos in activeDonuts):
+                activeDonuts.pop()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
 
     # Build Policy Table
     p = [[], [], [], [], [], [], [], [], [], []]
     for i in range(0,10):
         for j in range(0,10):
-            squareRewards = {"up": GRID[i][j]["up"], "right": GRID[i][j]["right"], "down": GRID[i][j]["down"], "left": GRID[i][j]["left"]}
-            p[i].append(max(squareRewards, key=squareRewards.get))
+            if(GRID[i][j]["info"] == "W"):
+                p[i].append("WALL")
+            else:
+                squareRewards = {"up": GRID[i][j]["up"], "right": GRID[i][j]["right"], "down": GRID[i][j]["down"], "left": GRID[i][j]["left"]}
+                p[i].append(max(squareRewards, key=squareRewards.get))
     s = [[str(e) for e in row] for row in p]
     lens = [max(map(len, col)) for col in zip(*s)]
     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
     table = [fmt.format(*row) for row in s]
     print("Rewards Table")
     print('\n'.join(table))
-
+    print("\n")
     # Build Rewards Table
+    getcontext().prec = 4
     r = [[], [], [], [], [], [], [], [], [], []]
     for i in range(0,10):
         for j in range(0,10):
             squareRewards = [GRID[i][j]["up"], GRID[i][j]["right"], GRID[i][j]["down"], GRID[i][j]["left"]]
-            r[i].append(max(squareRewards, key=int))
+            r[i].append(round(max(squareRewards, key=int), 5))
     s = [[str(e) for e in row] for row in r]
     lens = [max(map(len, col)) for col in zip(*s)]
     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
     table = [fmt.format(*row) for row in s]
     print("Rewards Table")
     print('\n'.join(table))
+    print("\nTime Elapsed: " + str(timedelta(seconds=elapsed_time)) + " (Hr:Min:Sec)")
 
 
 if __name__ == '__main__':
