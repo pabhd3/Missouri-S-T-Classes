@@ -73,6 +73,13 @@ def main():
                 if(cPos in TILES):
                     print("We were hit!")
                     GRID[lastMove["coord"][0]][lastMove["coord"][1]][lastMove["direction"]] -= 10
+        
+        # Handle Donuts
+        if(len(activeDonuts) == 0):
+            whichDonut = DONUTS[randint(0, 3)]
+            print("Donut Fell at " + str(whichDonut))
+            activeDonuts.append(whichDonut)
+            GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
 
         # Show Output
         print("Current Position:", str(cPos))
