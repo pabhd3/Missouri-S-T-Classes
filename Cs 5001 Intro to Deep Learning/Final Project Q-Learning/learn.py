@@ -63,9 +63,10 @@ def main():
     alpha = 0.1
     gamma = 0.1
     lastMove = {"coord": (0, 0), "direction": "none"}
+    rewards = {"up": 0, "right": 0, "down": 0, "left": 0}
 
     for step in range(0, args.a):
-        # Handle Tiles
+        # Handle Tiles Falling
         tileFall = randint(0, 1)
         if(tileFall == 1):
             print("Tiles Fell!")
@@ -74,16 +75,32 @@ def main():
                     print("We were hit!")
                     GRID[lastMove["coord"][0]][lastMove["coord"][1]][lastMove["direction"]] -= 10
         
-        # Handle Donuts
+        # Handle Donut Falling
         if(len(activeDonuts) == 0):
             whichDonut = DONUTS[randint(0, 3)]
             print("Donut Fell at " + str(whichDonut))
             activeDonuts.append(whichDonut)
             GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
 
+        # Find Best Move
+        testup = cPos[0]-1, cPos[1]
+        rewards["up"] = nextPos(GRID[testup[0]][testup[1]]['info'])
+        testright = cPos[0], cPos[1]+1
+        rewards["right"] = nextPos(GRID[testright[0]][testright[1]]['info'])
+        testdown = cPos[0]+1, cPos[1]
+        rewards["down"] = nextPos(GRID[testdown[0]][testdown[1]]['info'])
+        testleft = cPos[0], cPos[1]-1
+        rewards["left"] = nextPos(GRID[testleft[0]][testleft[1]]['info'])
+        bestReward = max(rewards, key=rewards.get)
+        GRID[cPos[0]][cPos[1]]["up"] = GRID[cPos[0]][cPos[1]]["up"] + alpha * (rewards["up"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["up"])
+        GRID[cPos[0]][cPos[1]]["right"] = GRID[cPos[0]][cPos[1]]["right"] + alpha * (rewards["right"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["right"])
+        GRID[cPos[0]][cPos[1]]["down"] = GRID[cPos[0]][cPos[1]]["down"] + alpha * (rewards["down"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["down"])
+        GRID[cPos[0]][cPos[1]]["left"] = GRID[cPos[0]][cPos[1]]["left"] + alpha * (rewards["left"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["left"])
+ 
         # Show Output
         print("Current Position:", str(cPos))
         print("Move Options:    ", GRID[cPos[0]][cPos[1]])
+        print("Best reward is " + bestReward + "\n")
         print("\n")
 
 if __name__ == '__main__':
