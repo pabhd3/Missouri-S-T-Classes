@@ -32,7 +32,7 @@ def main():
         GRID.append([])
     for j in range(0,10):
         for k in range(0,10):
-            GRID[j].append({'info': ' ', 'up': 0, 'right': 0, 'down': 0, 'left': 0})
+            GRID[j].append({'info': ' ', 'up': 10, 'right': 10, 'down': 10, 'left': 10})
     for i in range(0,10):
         GRID[0][i]['info'] = "W"
         GRID[9][i]['info'] = "W"
@@ -85,7 +85,7 @@ def main():
             whichDonut = DONUTS[randint(0, 3)]
             activeDonuts.append(whichDonut)
             GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
-            print("A donut fell at: " + str(whichDonut))
+            #print("A donut fell at: " + str(whichDonut))
 
         # Find Best Move
         testup = cPos[0]-1, cPos[1]
@@ -97,10 +97,11 @@ def main():
         testleft = cPos[0], cPos[1]-1
         rewards["left"] = nextPos(GRID[testleft[0]][testleft[1]]['info'])
         bestReward = max(rewards, key=rewards.get)
-        GRID[cPos[0]][cPos[1]]["up"] = GRID[cPos[0]][cPos[1]]["up"] + alpha * (rewards["up"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["up"])
-        GRID[cPos[0]][cPos[1]]["right"] = GRID[cPos[0]][cPos[1]]["right"] + alpha * (rewards["right"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["right"])
-        GRID[cPos[0]][cPos[1]]["down"] = GRID[cPos[0]][cPos[1]]["down"] + alpha * (rewards["down"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["down"])
-        GRID[cPos[0]][cPos[1]]["left"] = GRID[cPos[0]][cPos[1]]["left"] + alpha * (rewards["left"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["left"])
+        #print("Up", GRID[cPos[0]][cPos[1]]["up"], alpha, rewards["up"], gamma, rewards[bestReward], GRID[cPos[0]][cPos[1]]["up"])
+        GRID[cPos[0]][cPos[1]]["up"] += (alpha * (rewards["up"] + gamma * (rewards[bestReward] - GRID[cPos[0]][cPos[1]]["up"])))
+        GRID[cPos[0]][cPos[1]]["right"] = GRID[cPos[0]][cPos[1]]["right"] + (alpha * (rewards["right"] + gamma * (rewards[bestReward] - GRID[cPos[0]][cPos[1]]["right"])))
+        GRID[cPos[0]][cPos[1]]["down"] = GRID[cPos[0]][cPos[1]]["down"] + (alpha * (rewards["down"] + gamma * (rewards[bestReward] - GRID[cPos[0]][cPos[1]]["down"])))
+        GRID[cPos[0]][cPos[1]]["left"] = GRID[cPos[0]][cPos[1]]["left"] + (alpha * (rewards["left"] + gamma * (rewards[bestReward] - GRID[cPos[0]][cPos[1]]["left"])))
         #print("Movement Options: " + str(GRID[cPos[0]][cPos[1]]))
         #print("We want to move:  " + bestReward + " with reward " + str(GRID[cPos[0]][cPos[1]][bestReward]))
 
@@ -119,7 +120,7 @@ def main():
             else:
                 cPos = (cPos[0], cPos[1]-1)
             if(cPos in activeDonuts):
-                print("Yay! We ate a Donut!!!")
+                #print("Yay! We ate a Donut!!!")
                 activeDonuts.pop()
                 GRID[cPos[0]][cPos[1]]["info"] = " "
         else:
@@ -143,7 +144,7 @@ def main():
             lastMove["direction"] = otherDir
             cPos = stumbledTo
             if(cPos in activeDonuts):
-                print("Yay! We ate a Donut!!!")
+                #print("Yay! We ate a Donut!!!")
                 activeDonuts.pop()
                 GRID[cPos[0]][cPos[1]]["info"] = " "
         #print("\n")
