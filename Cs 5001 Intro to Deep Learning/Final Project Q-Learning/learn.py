@@ -71,11 +71,13 @@ def main():
 
     start_time = time.time()
     for step in range(0, args.a):
+        #print("Current Position: " + str(cPos))
         # Handle Tiles Falling
         tileFall = randint(0, 1)
         if(tileFall == 1):
             if(lastMove["coord"] != (0, 0)):
                 if(cPos in TILES):
+                    #print("    Ouch! A Tile fell on us!!!")
                     GRID[lastMove["coord"][0]][lastMove["coord"][1]][lastMove["direction"]] -= 10
         
         # Handle Donut Falling
@@ -83,6 +85,7 @@ def main():
             whichDonut = DONUTS[randint(0, 3)]
             activeDonuts.append(whichDonut)
             GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
+            print("A donut fell at: " + str(whichDonut))
 
         # Find Best Move
         testup = cPos[0]-1, cPos[1]
@@ -98,10 +101,13 @@ def main():
         GRID[cPos[0]][cPos[1]]["right"] = GRID[cPos[0]][cPos[1]]["right"] + alpha * (rewards["right"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["right"])
         GRID[cPos[0]][cPos[1]]["down"] = GRID[cPos[0]][cPos[1]]["down"] + alpha * (rewards["down"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["down"])
         GRID[cPos[0]][cPos[1]]["left"] = GRID[cPos[0]][cPos[1]]["left"] + alpha * (rewards["left"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["left"])
+        #print("Movement Options: " + str(GRID[cPos[0]][cPos[1]]))
+        #print("We want to move:  " + bestReward + " with reward " + str(GRID[cPos[0]][cPos[1]][bestReward]))
 
         # Make a Move
         stumble = randint(1,100)
         if(stumble in range(1,82)):
+            #print("Successfully moved:  " + bestReward + " with reward " + str(GRID[cPos[0]][cPos[1]][bestReward]))
             lastMove["coord"] = cPos
             lastMove["direction"] = bestReward
             if(bestReward == "up"):
@@ -113,7 +119,9 @@ def main():
             else:
                 cPos = (cPos[0], cPos[1]-1)
             if(cPos in activeDonuts):
+                print("Yay! We ate a Donut!!!")
                 activeDonuts.pop()
+                GRID[cPos[0]][cPos[1]]["info"] = " "
         else:
             other = True
             while(other):
@@ -130,11 +138,15 @@ def main():
                         stumbledTo = (cPos[0], cPos[1]-1)
                     if(GRID[stumbledTo[0]][stumbledTo[1]]["info"] != "W"):
                         other = False
+            #print("Stumbled:  " + otherDir + " with reward " + str(GRID[stumbledTo[0]][stumbledTo[1]][otherDir]))
             lastMove["coord"] = cPos
             lastMove["direction"] = otherDir
             cPos = stumbledTo
             if(cPos in activeDonuts):
+                print("Yay! We ate a Donut!!!")
                 activeDonuts.pop()
+                GRID[cPos[0]][cPos[1]]["info"] = " "
+        #print("\n")
 
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -144,7 +156,7 @@ def main():
     for i in range(0,10):
         for j in range(0,10):
             if(GRID[i][j]["info"] == "W"):
-                p[i].append("WALL")
+                p[i].append(" ")
             else:
                 squareRewards = {"up": GRID[i][j]["up"], "right": GRID[i][j]["right"], "down": GRID[i][j]["down"], "left": GRID[i][j]["left"]}
                 p[i].append(max(squareRewards, key=squareRewards.get))
