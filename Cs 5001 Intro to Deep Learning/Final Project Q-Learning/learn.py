@@ -42,6 +42,7 @@ def main():
     TILES = [(1, 3), (2, 7), (3, 4), (5, 2), (6, 5), (6, 7), (7, 2)]
     DONUTS = [(1, 1), (1, 8), (8, 1), (8, 8)]
     activeDonuts = []
+    MOVES = ["up", "right", "down", "left"]
 
 
     # Get a Starting Position
@@ -69,16 +70,13 @@ def main():
         # Handle Tiles Falling
         tileFall = randint(0, 1)
         if(tileFall == 1):
-            print("Tiles Fell!")
             if(lastMove["coord"] != (0, 0)):
                 if(cPos in TILES):
-                    print("We were hit!")
                     GRID[lastMove["coord"][0]][lastMove["coord"][1]][lastMove["direction"]] -= 10
         
         # Handle Donut Falling
         if(len(activeDonuts) == 0):
             whichDonut = DONUTS[randint(0, 3)]
-            print("Donut Fell at " + str(whichDonut))
             activeDonuts.append(whichDonut)
             GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
 
@@ -96,12 +94,40 @@ def main():
         GRID[cPos[0]][cPos[1]]["right"] = GRID[cPos[0]][cPos[1]]["right"] + alpha * (rewards["right"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["right"])
         GRID[cPos[0]][cPos[1]]["down"] = GRID[cPos[0]][cPos[1]]["down"] + alpha * (rewards["down"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["down"])
         GRID[cPos[0]][cPos[1]]["left"] = GRID[cPos[0]][cPos[1]]["left"] + alpha * (rewards["left"] + gamma * rewards[bestReward] - GRID[cPos[0]][cPos[1]]["left"])
- 
-        # Show Output
-        print("Current Position:", str(cPos))
-        print("Move Options:    ", GRID[cPos[0]][cPos[1]])
-        print("Best reward is " + bestReward + "\n")
-        print("\n")
+
+        # Make a Move
+        stumble = randint(1,100)
+        if(stumble in range(1,82)):
+            lastMove["coord"] = cPos
+            lastMove["direction"] = bestReward
+            if(bestReward == "up"):
+                cPos = (cPos[0]-1, cPos[1])
+            elif(bestReward == "right"):
+                cPos = (cPos[0], cPos[1]+1)
+            elif(bestReward == "down"):
+                cPos = (cPos[0]+1, cPos[1])
+            else:
+                cPos = (cPos[0], cPos[1]-1)
+        else:
+            other = True
+            while(other):
+                otherDir = MOVES[randint(0,3)]
+                if(otherDir != bestReward):
+                    stumbledTo = cPos
+                    if(otherDir == "up"):
+                        stumbledTo = (cPos[0]-1, cPos[1])
+                    elif(otherDir == "right"):
+                        stumbledTo = (cPos[0], cPos[1]+1)
+                    elif(otherDir == "down"):
+                        stumbledTo = (cPos[0]+1, cPos[1])
+                    else:
+                        stumbledTo = (cPos[0], cPos[1]-1)
+                    if(GRID[stumbledTo[0]][stumbledTo[1]]["info"] != "W"):
+                        other = False
+            lastMove["coord"] = cPos
+            lastMove["direction"] = otherDir
+            cPos = stumbledTo
+
 
 if __name__ == '__main__':
     main()
