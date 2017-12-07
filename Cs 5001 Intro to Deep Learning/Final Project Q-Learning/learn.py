@@ -5,14 +5,6 @@ from random import randint
 import time
 from datetime import timedelta
 
-def nextPos(cardinal):
-    if(cardinal == "W"):
-        return -1
-    elif(cardinal == "D"):
-        return 10
-    else:
-        return 0
-        
 
 def main():
     # Set up Argparse
@@ -56,6 +48,7 @@ def main():
         if(GRID[xStart][yStart]['info'] != 'W'):
             startPoint = False
     cPos = xStart, yStart
+    nPos = 0, 0
     GRID[cPos[0]][cPos[1]]['info'] = 'C'
 
     #for i in range(0,10):
@@ -66,34 +59,124 @@ def main():
     alpha = 0.2
     gamma = 0.2
     lastMove = {"coord": (0, 0), "direction": "none"}
-    rewards = {"up": 0, "right": 0, "down": 0, "left": 0}
 
     start_time = time.time()
     for step in range(0, args.a):
         #hund = args.a / 100
         #if(step % hund == 0):
             #print(str(step/hund) + "% Complete")
-        #print("Current Position: " + str(cPos))
+
+        #print("Last Move:", lastMove)
+        print("Current Position:", cPos)
+
         # Handle Tiles Falling
         tileFall = randint(0, 1)
         if(tileFall == 1):
             if(lastMove["coord"] != (0, 0)):
                 if(cPos in TILES):
-                    print("Ouch! A Tile fell on us at ", cPos, lastMove)
-                    print(GRID[lastMove['coord'][0]][lastMove['coord'][1]][lastMove['direction']])
+                    #print("Ouch! A Tile fell on us at ", cPos, lastMove)
+                    #print(GRID[lastMove['coord'][0]][lastMove['coord'][1]][lastMove['direction']])
                     GRID[lastMove['coord'][0]][lastMove['coord'][1]][lastMove['direction']] -= 10
-                    print(GRID[lastMove['coord'][0]][lastMove['coord'][1]][lastMove['direction']])
+                    #print(GRID[lastMove['coord'][0]][lastMove['coord'][1]][lastMove['direction']])
         
         # Handle Donut Falling
         if(len(activeDonuts) == 0):
             whichDonut = DONUTS[randint(0, 3)]
             activeDonuts.append(whichDonut)
             GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
-            print("A donut fell at: " + str(whichDonut))
+            #print("A donut fell at: " + str(whichDonut))
 
         # Find Best Move
+        rewardsHere = {"up": 0, "right": 0, "down": 0, "left": 0}
+        rewardsHere["up"] = GRID[cPos[0]][cPos[1]]["up"]
+        rewardsHere["right"] = GRID[cPos[0]][cPos[1]]["right"]
+        rewardsHere["down"] = GRID[cPos[0]][cPos[1]]["down"]
+        rewardsHere["left"] = GRID[cPos[0]][cPos[1]]["left"]
+        print("   Current Rewards at", cPos, rewardsHere)
+        sortedRewardsHere = sorted(rewardsHere.items(), key=lambda x: x[1], reverse=True)
+        bestHere = sortedRewardsHere[0]
+        #print("Most rewarding going", bestHere[0],"to",moveRight,"with",bestHere[1])
 
         # Make a Move
+        s = randint(1,100)
+        weWent = {"from": cPos, "going": "nowhere", "with": bestHere[1]}
+        if(s in range(1, 83)):
+            #print("Move where we wanted")
+            weWent["going"] = bestHere[0]
+        else:
+            #print("Stumbled")
+            notFound = True
+            while(notFound):
+                choice = randint(0, 3)
+                if(MOVES[choice] != bestHere[0]):
+                    notFound = False
+                    weWent["going"] = MOVES[choice]
+        #print("We went:",weWent)
+        lastMove["coord"] = weWent["from"]
+        lastMove["direction"] = weWent["going"]
+
+        rew = 0
+        if(weWent["going"] == "up"):
+            moveUp = cPos[0]-1, cPos[1]
+            #print("Trying to move to", moveUp)
+            if(GRID[moveUp[0]][moveUp[1]]["info"] != "W"):
+                #print("Successfully moved to", moveUp)
+                cPos = moveUp
+            if(GRID[cPos[0]][cPos[1]]["info"] == "W"):
+                rew = -1
+            if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
+                rew = 10
+                activeDonuts.pop()
+        if(weWent["going"] == "right"):
+            moveRight = cPos[0], cPos[1]+1
+            #print("Trying to move to", moveRight)
+            if(GRID[moveRight[0]][moveRight[1]]["info"] != "W"):
+                #print("Successfully moved to", moveRight)
+                cPos = moveRight
+            if(GRID[cPos[0]][cPos[1]]["info"] == "W"):
+                rew = -1
+            if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
+                rew = 10
+                activeDonuts.pop()
+        if(weWent["going"] == "down"):
+            moveDown = cPos[0]+1, cPos[1]
+            #print("Trying to move to", moveDown)
+            if(GRID[moveDown[0]][moveDown[1]]["info"] != "W"):
+                #print("Successfully moved to", moveDown)
+                cPos = moveDown
+            if(GRID[cPos[0]][cPos[1]]["info"] == "W"):
+                rew = -1
+            if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
+                rew = 10
+                activeDonuts.pop()
+        if(weWent["going"] == "left"):
+            moveLeft = cPos[0], cPos[1]-1
+            #print("Trying to move to", moveLeft)
+            if(GRID[moveLeft[0]][moveLeft[1]]["info"] != "W"):
+                #print("Successfully moved to", moveLeft)
+                cPos = moveLeft
+            if(GRID[cPos[0]][cPos[1]]["info"] == "W"):
+                rew = -1
+            if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
+                rew = 10
+                activeDonuts.pop()
+        #print("We moved to", cPos)
+        rewardsTo = {"up": 0, "right": 0, "down": 0, "left": 0}
+        rewardsTo["up"] = GRID[cPos[0]][cPos[1]]["up"]
+        rewardsTo["right"] = GRID[cPos[0]][cPos[1]]["right"]
+        rewardsTo["down"] = GRID[cPos[0]][cPos[1]]["down"]
+        rewardsTo["left"] = GRID[cPos[0]][cPos[1]]["left"]
+        print("   Moved To Rewards at", cPos, rewardsTo)
+        sortedRewardsTo = sorted(rewardsTo.items(), key=lambda x: x[1], reverse=True)
+        bestTo = sortedRewardsTo[0]
+        print("Best Moved From", weWent)
+        print("Best Moved To", bestTo)
+        print("Pre update", GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]])
+        GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]] += alpha
+        print("Post update", GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]])
+
+        #print("We moved to", cPos)
+        print("\n")
 
     end_time = time.time()
     elapsed_time = end_time - start_time
