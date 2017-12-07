@@ -56,8 +56,8 @@ def main():
             #print(GRID[i][j]['info'], end=' ')
         #print('\n')
 
-    alpha = 0.01
-    gamma = 0.01
+    alpha = 0.1
+    gamma = 0.1
     lastMove = {"coord": (0, 0), "direction": "none"}
 
     start_time = time.time()
@@ -115,7 +115,7 @@ def main():
         #print("We went:",weWent)
         lastMove["coord"] = weWent["from"]
         lastMove["direction"] = weWent["going"]
-   #####print("We were at", cPos, bestHere)
+        #print("We were at", cPos, bestHere)
         rew = 0
         if(weWent["going"] == "up"):
             moveUp = cPos[0]-1, cPos[1]
@@ -127,8 +127,9 @@ def main():
                 cPos = moveUp
                 if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
                     rew = 10
+                    GRID[cPos[0]][cPos[1]]["info"] = " "
                     activeDonuts.pop()
-        elif(weWent["going"] == "right"):
+        if(weWent["going"] == "right"):
             moveRight = cPos[0], cPos[1]+1
             #print("Trying to move to", moveUp)
             if(GRID[moveRight[0]][moveRight[1]]["info"] == "W"):
@@ -138,8 +139,9 @@ def main():
                 cPos = moveRight
                 if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
                     rew = 10
+                    GRID[cPos[0]][cPos[1]]["info"] = " "
                     activeDonuts.pop()
-        elif(weWent["going"] == "down"):
+        if(weWent["going"] == "down"):
             moveDown = cPos[0]+1, cPos[1]
             #print("Trying to move to", moveUp)
             if(GRID[moveDown[0]][moveDown[1]]["info"] == "W"):
@@ -149,8 +151,9 @@ def main():
                 cPos = moveDown
                 if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
                     rew = 10
+                    GRID[cPos[0]][cPos[1]]["info"] = " "
                     activeDonuts.pop()
-        else:
+        if(weWent["going"] == "left"):
             moveLeft = cPos[0], cPos[1]-1
             #print("Trying to move to", moveUp)
             if(GRID[moveLeft[0]][moveLeft[1]]["info"] == "W"):
@@ -160,6 +163,7 @@ def main():
                 cPos = moveLeft
                 if(GRID[cPos[0]][cPos[1]]["info"] == "D"):
                     rew = 10
+                    GRID[cPos[0]][cPos[1]]["info"] = " "
                     activeDonuts.pop()
         
         #print("We moved to", cPos)
@@ -171,12 +175,12 @@ def main():
         #print("   Moved To Rewards at", cPos, rewardsTo)
         sortedRewardsTo = sorted(rewardsTo.items(), key=lambda x: x[1], reverse=True)
         bestTo = sortedRewardsTo[0]
-   #####print("New we're at", cPos, bestTo)
+        #print("New we're at", cPos, bestTo)
         #print("Moved From", weWent)
         #print("Moved To", cPos, bestTo)
         #print("Pre update", GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]])
         diff = bestTo[1] - GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]]
-   #####print("Update Values for", GRID[cPos[0]][cPos[1]], alpha, rew, gamma, diff)
+        #print("Update Values for", GRID[cPos[0]][cPos[1]], alpha, rew, gamma, bestTo[1], bestTo[1])
         GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]] += (alpha * (rew + (gamma * diff)))
         #print("Post update", GRID[weWent["from"][0]][weWent["from"][1]][weWent["going"]])
 
