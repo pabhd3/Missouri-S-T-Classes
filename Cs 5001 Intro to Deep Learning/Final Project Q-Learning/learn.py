@@ -66,9 +66,11 @@ def main():
         
         # Handle Donut Falling
         if(len(activeDonuts) == 0):
-            whichDonut = DONUTS[randint(0, 3)]
-            activeDonuts.append(whichDonut)
-            GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
+            newDonut = randint(0, 3)
+            if(newDonut == 0):
+                whichDonut = DONUTS[randint(0, 3)]
+                activeDonuts.append(whichDonut)
+                GRID[whichDonut[0]][whichDonut[1]]["info"] = "D"
 
         # Find Best Move
         rewardsHere = {"up": 0, "right": 0, "down": 0, "left": 0}
