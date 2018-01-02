@@ -1,0 +1,23 @@
+Instructions
+For this assignment, you will submit multiple files containing a program written in C++. You know the rest.
+
+Background
+Moe, he's slightly smarter than your typical moron, but that's what makes him endearing and so interesting to us.  But I digress.  Moe really wants to shed his image of being an idiot, so he's going to try to engage in literary genius, wow his customers with his lettered prowess, galvanize patrons with erudition, pique their interest with his mastery of the spoken word and thought. So, he's going to steal Aesop's fables, butcher them with barroom profundity, and rename them "Moe's Fables".  But, of course, he's also lazy and so he wants you to write a program that will do it for him. Thus, you will have to imagine that the program you write will be used by Moe himself as he creates fables to post around the bar in hopes of impressing visitors and friends alike.
+
+Specifications
+Your program is to prompt Moe "So, Moe, are you ready to create a fable?" with the expectation of an affirmative or negative response. After the first fable is done, reprompt him for doing another.  A negative response in either case will terminate the program.  When a fable is wanted, your program will read from a file, that is chosen at random, one of Aesop's fables.  The first sentence of the fable will be the title of that particular fable.  It will always be of the form "The something and the somethingelse fable".  Then the following sentences are the fable about something and somethingelse.  You first must "capture" what the something and somethingelse are from that first sentence.  Then, in the following sentences, replace every instance of something and somethingelse with a replacement word.  The replacement words will be chosen at random (once per fable) from two other files; something is replaced by a word from the first of these two files, and somethingelse is replaced by a word from the second of the two files.  For example, let's suppose that the Aesop fable chosen starts as The stag and the crow fable. Your code will then recognize "stag" and "crow" as the words to replace; stag replaced from one file, and crow replaced from another.  Suppose then that your code at random chose "Homer" to replace stag and "beer bottle" to replace crow.  In the ensuing fable, every instance of stag is replace by Homer, and every instance of crow is replaced by beer bottle.  Furthermore, any word in the fable that follows either word "a" or "the" must be replaced by some other word drawn at random from the second list (unless it is the something or somethingelse words).  At the end of the fable, Moe wants your program to state a morale of the story.  Since Moe, deep thinker that he is, has written down several of these gems over the years in his Big Chief notebook (with a blue crayon), they will be supplied to you in another file.  Your code is to pick at random a "Moe-rale" from this file to append to the end of his Moe fable.  And, to top it all off, at the end of every sentence in the fable, there is a 1 in 4 chance that you will insert into the fable at that point one of Moe's rants, of course chosen at random.  A file of these is also given.
+
+Your output should look something like this:
+
+    Moe Fable #1:  The drunk and the barstool fable.  Once upon a time, in a bar far, far away .....
+                                                                            ....and the drunk ate the barstool and ran away.
+                           The Moe-rale of this story is:  blah blah blah
+
+And the output is to be to a output file called MoeFables.txt and be sure to output a blank line between fables.
+
+You are required to use null-terminated character arrays (ntcas) for the manipulation of data (the fables and replacements therein).  You are allowed to use standard string class strings for such things as file names only.
+
+The files are linked below.  Two important things:  to use the files below, it is best not to open them and copy-paste.  Click the arrow to download them and save them in your s-drive in your cs53/hw8 directory.  They are pure text.  If you copy onto your clipboard and paste that text into a file, you might pick up stray characters that will mess up your program.  Also, this week we may come up with addition stuff to put into those files, so they will be updated periodically.  You can  download them again near the time you submit.  Or, you can add to your files the stuff we added.  Either way.  In fact, if you have some funny stuff to add, just do it.
+
+When you submit
+Create two Moe fables and then quit.

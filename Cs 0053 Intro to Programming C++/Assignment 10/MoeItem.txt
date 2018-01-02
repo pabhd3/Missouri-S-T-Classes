@@ -1,0 +1,13 @@
+beer,4.00
+barstool,10.00
+shot of whiskey,6.00
+complete floor,100.00
+peanut,0.10
+pickled egg,1.00
+dartgun,20.00
+bottle opener,2.50
+blender,15.00
+mug,3.50
+juke box,25.00
+table,7.50
+bar tender,10.00

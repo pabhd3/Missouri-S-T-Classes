@@ -1,0 +1,20 @@
+Homer,1
+Lenny,1
+Milhouse,2
+Bart,2
+Edna Krabapple,1
+Otto Mann,2
+Ned Flaners,2
+Rod Flanders,2
+Marge,1
+Krusty,1
+Disco Stu,2
+Dolph,2
+Dr. Hibbert,1
+Barney,1
+Rev. Lovejoy,1
+Martin,2
+Smithers,2
+Groundskeeper Willie,1
+Ralph Wiggum,2
+Apu Nahasapeemapetilon,1

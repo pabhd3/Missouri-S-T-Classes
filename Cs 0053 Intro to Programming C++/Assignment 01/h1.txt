@@ -1,0 +1,40 @@
+// Programmer: Peter Banko              date: 8/25/13
+// File: h1
+
+
+1. Changing a Flat Tire
+  1. Pull a jack, a lug wrench, and inflated tire out of your car.
+  2. Place the jack under the car, near the deflated tire.
+  3. Raise and lower the lever on the jack to raise the car.
+  4. Use the lug wrench to remove all lug bolts on the hubcap of the
+  deflated tire. 
+  5. Remove the deflated tire from the car.
+  6. Put the new inflated tire on the car in the same place the deflated
+  tire was.
+  7. Use the lug wrench to tighten the lug bolts back into the hubcap.
+  8. Lower the jack  so that all four of the car's tires are on the ground.
+
+2. Converting Decimal to Binary
+ Notes: When marking 1s and 0s in your binary area, write them from left to
+        right.
+  1. Divide your base 10 by 2, move to step 2.
+  2. If the quotient is an odd number, continue to step 3, if the quotient
+     is even, move to step 4. 
+  3. Subrtact 1 from the quotient, and mark a 1 in your binary area. Move to
+     step 5.
+  4. Mark a 0 in your binary area. Continue to step 5.
+  5. If your quotient is 1 move to step 6, if your quotient is greater than
+     1 go back to step 1. 
+  6. Mark the final 1 in your binary area. You have converted your decimal to binary.  
+
+3. Adding Fractions
+  1. Multiply the numerator and denominator of fraction A, by the
+     denominator of fraction B.
+  2. Multiple the numerator and denominator of fraction B, by the
+     denominator of fraction A.
+  3. Make the product of denominator_A and denominator_b the
+     denominator_New.
+  4. Add numberator A to numerator B, making numerator_New.
+  5. Make numerator_New the numerator of fraction_New.
+  6. Make denominator_New the denominator of fraction_New.
+  6. Simplify fraction_New, if not already simplified.

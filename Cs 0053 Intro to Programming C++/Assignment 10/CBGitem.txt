@@ -1,0 +1,9 @@
+superman comic,4.00
+batman comic,8.00
+spiderman comic,10.00
+action figure,10.00
+40-sided die,20.00
+cheeto value-pak,15.00
+limited release RadioMan#1,100.00
+phonebook, 10.00
+cat,5.00
